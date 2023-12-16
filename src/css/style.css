@@ -1,0 +1,241 @@
+body {
+  margin: 0;
+  padding: 0;
+
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+  cursor: pointer;
+}
+
+.organizer {
+  display: flex;
+  flex-direction: column;
+
+  margin: 0 auto;
+  width: 60vw;
+  min-width: 500px;
+  height: 100vh;
+  max-height: 100vh;
+}
+
+.header {
+  height: 10%;
+
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+}
+
+.main {
+  display: flex;
+  flex-direction: column-reverse;
+  overflow-y: auto;
+  height: 100%;
+  border: 1px solid black;
+}
+
+.main-messages {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+  justify-content: flex-end;
+
+  padding: 10px;
+
+  /* overflow-y: auto; */
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+
+  /* height: 5%; */
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+}
+
+.attachments {
+  display: flex;
+  max-height: 100px;
+  border-bottom: 1px solid black;
+}
+
+.attachments-element {
+  width: 100px;
+  height: 100px;
+  font-size: 12px;
+
+  overflow: hidden;
+}
+
+.attachments-element-preview {
+  max-width: 100px;
+}
+
+.controllers {
+  display: flex;
+  width: 100%;
+}
+
+.message-form {
+  display: flex;
+  width: 100%;
+}
+
+.mess-input {
+  width: 100%;
+  resize: none;
+}
+
+.send-button::after {
+  content: "→";
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  background-color: rgb(248, 248, 248);
+  border: 1px solid rgb(147, 200, 146);
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 5px;
+}
+
+.message-text-container {
+  /* padding-top: 5px; */
+  white-space: pre-wrap;
+}
+
+.message_text {
+  margin: 2px 0;
+  /* white-space: pre-wrap; */
+}
+
+.attachment-container, .location-container, .other, .media-container {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  cursor: pointer;
+}
+
+.attachment-input, .location-input, .media-input {
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0; margin: 0;
+  opacity: 0.1;
+  width: 100%;
+}
+
+.attachment-overlay, .location-overlay, .other-overlay, .media-overlay{
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0; margin: 0;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 5px;
+  line-height: 40px;
+  text-align: center;
+}
+
+.other-list {
+  position: relative;
+  bottom: 84px;
+}
+
+.attachment-overlay {
+    background-image: url(/src/img/attach.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.location-overlay {
+    background-image: url(/src/img/location.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.media-overlay {
+    background-image: url(/src/img/rec.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 20px;
+}
+
+.media-stop {
+    background-image: url(/src/img/trash.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 20px;
+}
+
+.emoji-container {
+    background-image: url(/src/img/emoji.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 25px;
+
+    width: 40px;
+    height: 40px;
+    position: relative;
+    cursor: pointer;
+}
+
+.emoji-list {
+    background-color: white;
+    border: 1px solid black;
+    align-items: center;
+    display: flex;
+    padding: 10px;
+    display: block;
+
+    position: relative;
+    cursor: pointer;
+
+    bottom: 66px;
+}
+
+
+
+.message-file-img {
+    width: 50px;
+    height: 50px;
+
+    background-image: url(/src/img/file.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+}
+
+.message-img {
+  max-width: 200px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.message-video {
+  max-width: 400px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.hide{
+  display: none;
+}
+
+.video-modal {
+  margin-top: calc(100vh / 2 - 135px);
+  width: 480px;
+  height: 270px;
+}
+
+.video-player-online {
+  width: 100%;
+  height: 100%;
+}
+
+.video-player {
+  width: 100%;
+  height: 100%;
+}
