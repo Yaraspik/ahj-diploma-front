@@ -14,7 +14,7 @@ import 'highlight.js/styles/github.css';
 export default class Organizer {
   constructor(container) {
     this.media = new Media();
-    this.url = 'http://localhost:3030';
+    this.url = 'https://ahj-diploma-mcm1.onrender.com';
     this.fileReader = new FileReader();
     this.currentAttachments = new Map();
     this.container = container;
@@ -53,7 +53,7 @@ export default class Organizer {
   }
 
   wsInit() {
-    this.ws$ = webSocket(`ws://${new URL(this.url).host}`);
+    this.ws$ = webSocket(`wss://${new URL(this.url).host}`);
     this.ws$.subscribe({
       // Called whenever there is a message from the server
       next: (msg) => {
