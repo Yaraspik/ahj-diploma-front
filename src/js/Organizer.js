@@ -29,6 +29,7 @@ export default class Organizer {
     this.otherOpportunities = this.container.querySelector('.other');
     this.otherOpportunitiesList = this.container.querySelector('.other-list');
     this.otherOpportunitiesListElement = this.container.querySelectorAll('.other-list-element');
+    this.mediaMainContainer = this.container.querySelector('.media-main-container');
     this.mediaRecord = this.container.querySelector('.media-record');
     this.mediaRecordStop = this.container.querySelector('.media-stop');
     this.sendButton = this.container.querySelector('.send-button');
@@ -50,6 +51,7 @@ export default class Organizer {
     this.onEnter();
     this.onMediaRecordClick();
     this.onEmoji();
+    this.messEditable();
   }
 
   wsInit() {
@@ -201,7 +203,8 @@ export default class Organizer {
       map(() => {
         const posTop = this.main.getBoundingClientRect().top;
         const posTop2 = this.mainer.getBoundingClientRect().top;
-        return posTop - posTop2 > 0;
+        console.log(posTop - posTop2);
+        return posTop - posTop2 > -0.5;
       }),
 
       filter(Boolean),
@@ -237,15 +240,28 @@ export default class Organizer {
 
   onMediaRecordClick() {
     const send$ = fromEvent(this.sendButton, 'click');
-    const stream$ = fromEvent(this.mediaRecord, 'click');
-    stream$.pipe(
-      tap(async () => {
-        const ready = await this.media.init();
+    const stream$ = fromEvent(this.mediaMainContainer, 'click');
+    stream$.pipe(/* TODO Вот этот async не рушит всю суть RXJS?
+    Если да, то как правильно оформить асинхронность,
+    если функция toPromise больше не используется? */
+      tap(async (e) => {
+        const { type } = e.target.closest('.media-container').dataset;
+        let req;
+
+        if (type === 'video') {
+          req = { audio: true, video: true };
+        } else {
+          req = { audio: true };
+        }
+
+        const ready = await this.media.init(req, type);
         if (!ready) {
           console.log('Необходимо дать разрешение на использование камеры или микрофона');
           return;
         }
+
         this.media.start();
+        this.recOn = true;
         this.mediaRecord.classList.add('hide');
         this.mediaRecordStop.classList.remove('hide');
         this.sendButton.classList.remove('hide');
@@ -253,13 +269,18 @@ export default class Organizer {
     ).subscribe();
 
     send$.pipe(
-      tap(() => this.sendButton.classList.add('hide')),
+      tap((e) => {
+        this.sendButton.classList.add('hide');
+        console.log(e);
+        if (this.recOn) {
+          this.media.stop();
+          this.recOn = false;
+        }
+      }),
       filter(() => this.media.modal.open),
       Utils.preventDefault(),
-      tap(() => {
-        this.media.stop();
-      }),
-      debounceTime(1000),
+      debounceTime(2000), /* TODO как правильно оформить ожидание наличия файла в ридере?
+      debounce же явно не очень надежный вариант */
       tap(() => {
         this.fileReader.readAsDataURL(this.media.blob);
       }),
@@ -286,6 +307,17 @@ export default class Organizer {
       map((e) => e.target.innerText),
     ).subscribe((emoji) => {
       this.messInput.value += emoji;
+      this.sendButton.classList.remove('hide');
+    });
+  }
+
+  messEditable() {
+    const stream$ = fromEvent(this.messInput, 'keyup');
+
+    stream$.pipe(
+      filter((e) => e.target.scrollTop > 0),
+    ).subscribe((e) => {
+      e.target.style.height = `${e.target.scrollHeight}px`;
     });
   }
 }

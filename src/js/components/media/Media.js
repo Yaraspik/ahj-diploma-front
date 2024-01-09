@@ -5,13 +5,11 @@ export default class Media {
     this.videoPlayerOnline = document.querySelector('.video-player-online');
   }
 
-  async init() {
+  async init(permissions, type) {
     try {
-      this.stream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true,
-      });
+      this.stream = await navigator.mediaDevices.getUserMedia(permissions);
       this.recorder = new MediaRecorder(this.stream);
+      this.type = type;
       return true;
     } catch (error) {
       return false;
@@ -28,8 +26,9 @@ export default class Media {
     });
 
     this.recorder.addEventListener('stop', () => {
+      const type = this.type === 'video' ? `${this.type}/webm` : `${this.type}/mp3`;
       this.blob = new Blob(this.chunks, {
-        type: 'video/webm',
+        type,
       });
 
       this.res = URL.createObjectURL(this.blob);
@@ -47,5 +46,6 @@ export default class Media {
   stop() {
     this.recorder.stop();
     this.stream.getTracks().forEach((track) => track.stop());
+    this.chunks = [];
   }
 }

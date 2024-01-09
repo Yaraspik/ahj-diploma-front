@@ -14,8 +14,8 @@ button {
   flex-direction: column;
 
   margin: 0 auto;
-  width: 60vw;
-  min-width: 500px;
+  /* width: 60vw; */
+  /* max-width: 500px; */
   height: 100vh;
   max-height: 100vh;
 }
@@ -32,7 +32,32 @@ button {
   flex-direction: column-reverse;
   overflow-y: auto;
   height: 100%;
-  border: 1px solid black;
+  /* border: 1px solid black; */
+
+  background-image: url(../img/back.jpg);
+}
+
+.main::-webkit-scrollbar,
+.mess-input::-webkit-scrollbar {
+  width: 7px;
+}
+
+.main::-webkit-scrollbar-track,
+.mess-input::-webkit-scrollbar {
+  -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
+  background-color: #f9f9fd;
+}
+
+.main::-webkit-scrollbar-thumb,
+.mess-input::-webkit-scrollbar {
+  background-color: #f2bf93;
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .25) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255, 255, 255, .25) 50%,
+      rgba(255, 255, 255, .25) 75%,
+      transparent 75%,
+      transparent);
 }
 
 .main-messages {
@@ -49,16 +74,13 @@ button {
 .footer {
   display: flex;
   flex-direction: column;
-
-  /* height: 5%; */
-  border-left: 1px solid black;
-  border-right: 1px solid black;
+  background-color: #b2c5e6;
 }
 
 .attachments {
   display: flex;
   max-height: 100px;
-  border-bottom: 1px solid black;
+  /* border-bottom: 1px solid black; */
 }
 
 .attachments-element {
@@ -81,25 +103,56 @@ button {
 .message-form {
   display: flex;
   width: 100%;
+  align-items: flex-end;
 }
 
 .mess-input {
   width: 100%;
   resize: none;
+  max-height: 5rem;
+  border-top: none;
+  border: none;
+  /* margin: 0 10px; */
+  height: 90%;
+}
+
+.mess-input:focus {
+  outline: none;
+}
+
+.send-button {
+  height: 40px;
+  min-width: 40px;
+  width: 40px;
+  background: none;
+  border: none;
 }
 
 .send-button::after {
   content: "→";
 }
 
+/* .send-button-container {
+  display: flex;
+  height: 100%;
+  align-items: center;
+} */
+
 .message {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   background-color: rgb(248, 248, 248);
-  border: 1px solid rgb(147, 200, 146);
+  /* border: 1px solid rgb(147, 200, 146); */
   border-radius: 10px;
   padding: 10px;
+  margin-bottom: 5px;
+}
+
+.message-without-border {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   margin-bottom: 5px;
 }
 
@@ -113,25 +166,44 @@ button {
   /* white-space: pre-wrap; */
 }
 
-.attachment-container, .location-container, .other, .media-container {
+.attachment-container,
+.location-container,
+.other,
+.media-container {
   width: 40px;
+  min-width: 40px;
   height: 40px;
   position: relative;
   cursor: pointer;
 }
 
-.attachment-input, .location-input, .media-input {
+.attachment-input,
+.location-input,
+.media-input,
+.audio-input {
   position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0; margin: 0;
-  opacity: 0.1;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0;
   width: 100%;
 }
 
-.attachment-overlay, .location-overlay, .other-overlay, .media-overlay{
+.attachment-overlay,
+.location-overlay,
+.other-overlay,
+.media-overlay,
+.audio-overlay {
   position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0; margin: 0;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: 0;
   width: 100%;
-  background: #ffffff;
+  /* background: #ffffff; */
   border-radius: 5px;
   line-height: 40px;
   text-align: center;
@@ -139,79 +211,92 @@ button {
 
 .other-list {
   position: relative;
-  bottom: 84px;
+  bottom: 90px;
 }
 
 .attachment-overlay {
-    background-image: url(/src/img/attach.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
+  background-image: url(/src/img/attach.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-color: transparent;
+  margin-top: 5px;
 }
 
 .location-overlay {
-    background-image: url(/src/img/location.jpg);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
+  background-image: url(/src/img/geo.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-color: transparent;
+  margin-top: 5px;
+}
+
+
+.media-main-container {
+  display: flex;
 }
 
 .media-overlay {
-    background-image: url(/src/img/rec.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 20px;
+  background-image: url(/src/img/rec.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20px;
+}
+
+.audio-overlay {
+  background-image: url(/src/img/mic.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20px;
 }
 
 .media-stop {
-    background-image: url(/src/img/trash.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 20px;
+  background-image: url(/src/img/trash.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20px;
 }
 
 .emoji-container {
-    background-image: url(/src/img/emoji.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 25px;
+  background-image: url(/src/img/emoji.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 25px;
 
-    width: 40px;
-    height: 40px;
-    position: relative;
-    cursor: pointer;
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  position: relative;
+  cursor: pointer;
 }
 
 .emoji-list {
-    background-color: white;
-    border: 1px solid black;
-    align-items: center;
-    display: flex;
-    padding: 10px;
-    display: block;
-
-    position: relative;
-    cursor: pointer;
-
-    bottom: 66px;
+  background-color: white;
+  display: flex;
+  padding: 10px;
+  position: relative;
+  cursor: pointer;
+  bottom: 63px;
+  width: 180px;
+  right: 180px;
+  flex-wrap: wrap;
 }
 
-
-
 .message-file-img {
-    width: 50px;
-    height: 50px;
+  width: 50px;
+  height: 50px;
 
-    background-image: url(/src/img/file.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 100%;
+  background-image: url(/src/img/file.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
 }
 
 .message-img {
   max-width: 200px;
   border-radius: 10px;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
 }
 
 .message-video {
@@ -220,7 +305,7 @@ button {
   margin-bottom: 10px;
 }
 
-.hide{
+.hide {
   display: none;
 }
 
@@ -238,4 +323,31 @@ button {
 .video-player {
   width: 100%;
   height: 100%;
+}
+
+.message-file-img-download {
+  position: relative;
+}
+
+.message-file-img-download:after {
+  content: "";
+  display: none;
+  /* background-color: rgb(234, 234, 234); */
+  background-image: url(../img/download-img.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.message-file-img-download:hover:after {
+  display: block;
 }

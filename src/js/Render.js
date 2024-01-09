@@ -26,7 +26,11 @@ export default class Render {
 
   createMessage(objMsg, last) {
     console.log(objMsg);
-    const mess = Render.createElement('div', 'message', { id: objMsg.id });
+    let messageTag = 'message';
+    if (!objMsg.message) {
+      messageTag = 'message-without-border';
+    }
+    const mess = Render.createElement('div', messageTag, { id: objMsg.id });
 
     if (objMsg.message) {
       const text = objMsg.message;
@@ -39,7 +43,7 @@ export default class Render {
 
     if (objMsg.attachments) {
       objMsg.attachments.forEach(async (el) => {
-        const element = await Render.createMediaElement(el);
+        const element = await Render.createMediaElement(el, objMsg.id);
         mess.append(element);
       });
     }
@@ -97,7 +101,7 @@ export default class Render {
     return element;
   }
 
-  static async createMediaElement(attach) {
+  static async createMediaElement(attach, id) {
     const type = attach.substring(5, attach.indexOf(';'));
 
     if (type.includes('application')) {
@@ -126,9 +130,23 @@ export default class Render {
     }
 
     if (type.includes('image')) {
-      const res = Render.createElement('img', 'message-img');
+      const file = await fetch(attach);
+      const blob = await file.blob();
+      const url = URL.createObjectURL(blob);
+      const res = Render.createElement('img', 'message-img', { download: true });
       res.src = attach;
-      return res;
+      const download = Render.createElement(
+        'a',
+        'message-file-img-download',
+        {
+          rel: 'noopener',
+          download: `img-${id}.jpg`,
+          href: url,
+        },
+      );
+
+      download.append(res);
+      return download;
     }
 
     if (type.includes('video')) {
@@ -138,7 +156,7 @@ export default class Render {
     }
 
     if (type.includes('audio')) {
-      const res = Render.createElement('audio', 'message-video', { controls: '' });
+      const res = Render.createElement('audio', 'message-audio', { controls: '' });
       res.src = attach;
       return res;
     }
